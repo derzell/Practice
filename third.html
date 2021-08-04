@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Summer practice</title>
+	<link href="https://fonts.googleapis.com/css?fami..." rel="stylesheet">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/nomalize.css">
+	<script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+
+
+	<header class="header">
+		
+
+		<div class="container">
+			
+			<div class="header__top">
+				
+             <div class="logo">
+             	<a href="#">
+             		<img src="images/logo.svg" alt="">
+             	</a>
+             </div>
+
+             <nav class="menu__list">
+             	<ul class="menu__list">
+             		<li><a class="menu" href="index.html">Главная</a></li>
+             		<li><a class="menu" href="second.html">Сравнение</a></li>
+             		<li><a class="main" href="third.html">To Do List</a></li>
+          
+             	</ul>
+             </nav>
+
+         </div>
+
+         
+     </div>
+	</header>
+
+	<div class="container__todo">
+      <div id="app">
+       
+        <div class="card">
+          <div class="flex">
+            <input v-model="newItem" @keyup.enter="addItem" placeholder="Новая задача" />
+            <button @click="addItem" :disabled="newItem.length === 0">Добавить</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-inner">
+            <h2>To do List</h2>
+            <ul class="list">
+              <li class="list-item" :class="{completed: item.completed}" v-for="item in reversedItems">
+                <div class="list-item-toggle" @click="toggleCompleted(item)"></div><span>{{ item.name }}</span>
+                <div class="list-item-delete" @click="removeItem(item)">X</div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      new Vue( {
+        el: '#app',
+        data: {
+          newItem: '',
+          items: [
+            {
+              id: 1,
+              name: 'Покушать',
+              completed: false,
+            },
+            {
+              id: 2,
+              name: 'Сделать отчет',
+              completed: true,
+            },
+          ],
+        },
+        computed: {
+          reversedItems() {
+            return this.items.slice( 0 ).reverse();
+          },
+        },
+        methods: {
+          addItem: function () {
+            this.items.push( {
+              id: this.items.length + 1,
+              name: this.newItem,
+              completed: false,
+            } );
+            this.newItem = '';
+          },
+          toggleCompleted: function ( item ) {
+            item.completed = !item.completed;
+          },
+          removeItem: function ( item ) {
+            this.items = this.items.filter( ( newItem ) => newItem.name !== item.name );
+          },
+        },
+      } );
+    </script>
+
+
+
+
+</body>
+</html>
